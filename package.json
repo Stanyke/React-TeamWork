@@ -1,0 +1,22 @@
+{
+  "name": "react-teamwork",
+  "version": "1.0.0",
+  "description": "Front End of my NodeJS app called TeamWork",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stanyke/React-TeamWork.git"
+  },
+  "keywords": [
+    "Teamwork"
+  ],
+  "author": "Stanley Chibuike",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stanyke/React-TeamWork/issues"
+  },
+  "homepage": "https://github.com/Stanyke/React-TeamWork#readme"
+}
