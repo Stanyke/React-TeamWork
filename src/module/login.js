@@ -33,10 +33,6 @@ class CreateUser extends React.Component{
             <br/>
 
             <div class="col-sm-12">
-
-<div id="mum"></div>
-              </div>
-            <div class="col-sm-12">
               <font color="red"><div id="results1" class="col-sm-12"></div>
               <br/>
               <div id="results2" class="col-sm-12"></div>
@@ -78,7 +74,7 @@ class CreateUser extends React.Component{
             if (result.data.data)
             {
               document.getElementById("results1").innerHTML = "Success: "+result.data.status;
-              document.getElementById("mum").innerHTML = "Token: "+result.data.data.token;
+              document.getElementById("results2").innerHTML = "Token: "+result.data.data.token;
               document.getElementById("results3").innerHTML = "User ID: "+result.data.data.userId;
             }
 
