@@ -1,17 +1,16 @@
-import React, { Fragment } from 'react';
-import './App.css';
-import Navbar from './components/layout/Navbar';
+import React from 'react';
 
-import Login from './components/auth/Login';
+import Login from './module/login';
 
-const App = () =>
-{
-  return(
-    <Fragment>
-      <Navbar />
-      <Login />
-    </Fragment>
-  )
-};
+function App() {
+
+  return (
+      <div className="App">
+        
+        <Login />
+
+      </div>
+  );
+}
 
 export default App;
