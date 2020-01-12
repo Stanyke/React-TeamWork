@@ -1,17 +1,23 @@
-import React, { Fragment } from 'react';
-import './App.css';
-import Navbar from './components/layout/Navbar';
+import React from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import Login from './components/auth/Login';
+import adminCreateUser from './components/adminCreateUser';
 
-const App = () =>
-{
-  return(
-    <Fragment>
-      <Navbar />
-      <Login />
-    </Fragment>
-  )
-};
+function App() {
+  return (
+    <Router>
+      <div className="App">      
+
+        <div class="container">
+            <div class="row">
+
+              <Route path="/" exact component={adminCreateUser} />
+
+            </div>
+        </div>
+      </div>
+    </Router>
+  );
+}
 
 export default App;
