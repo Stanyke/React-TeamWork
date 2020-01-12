@@ -1,15 +1,22 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import Login from './module/login';
+import adminCreateUser from './components/adminCreateUser';
 
 function App() {
-
   return (
-      <div className="App">
-        
-        <Login />
+    <Router>
+      <div className="App">      
 
+        <div class="container">
+            <div class="row">
+
+              <Route path="/" exact component={adminCreateUser} />
+
+            </div>
+        </div>
       </div>
+    </Router>
   );
 }
 
