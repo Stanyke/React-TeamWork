@@ -26,7 +26,10 @@ class adminCreateUser extends React.Component{
       render(){
         return (
           <div class="container mt-3">
-              
+              <div class="loginUser">
+                <Link class="btn btn-outline-success" to="/login">Login</Link>
+              </div>
+
                 <div class="Banna" align="center"><h3>Create New User</h3></div>
                 
                 <div class="input-group mb-3">
@@ -192,11 +195,6 @@ class adminCreateUser extends React.Component{
      
           axios.post(baseUrl,datapost)
           .then(response=>{
-
-            if (response.data)
-            {
-              document.getElementById("results1").innerHTML = "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><i class='fa fa-exclamation-triangle'><strong> "+response.data+"</strong></div>";
-            }
 
             if (response.status === 201)
             {

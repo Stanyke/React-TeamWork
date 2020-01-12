@@ -1,66 +1,76 @@
 import React from 'react';
 
+import { Link } from "react-router-dom";
+
 import axios from 'axios';
 
 import "./style.css";
 
-class CreateUser extends React.Component{
+class loginUser extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             email:"",
-            password:""
+            password:"",
+
+            token:""
         }
       }
 
       render(){
         return (
-          <div class="container-fluid">
-            <div class="row">
-
-              <div class="form-group col-md-12">
-                <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control"  placeholder="Email" value={this.state.email} onChange={(value)=> this.setState({email:value.target.value})}/>
+          <div class="container mt-3">
+              
+              <div class="newT">
+                <Link class="btn btn-outline-success" to="/">Register User</Link>
               </div>
 
-              <div class="form-group col-md-12">
-                <label for="inputEmail4">Password</label>
-                <input type="password" class="form-control"  placeholder="Password" value={this.state.password} onChange={(value)=> this.setState({password:value.target.value})}/>
+                <div class="Banna" align="center"><h3>Login</h3></div>
+                
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
+                </div>
+                <input type="email" class="form-control" placeholder="Email" value={this.state.email} onChange={(value) => this.setState({ email: value.target.value })} />
               </div>
 
-              <button type="submit" class="col-md-12 btn btn-primary" onClick={()=>this.sendSave()}>Save</button>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                </div>
+                <input type="password" class="form-control" placeholder="Password" value={this.state.password} onChange={(value) => this.setState({ password: value.target.value })} />
+              </div>
 
-            <br/>
+              <div class="form-row">
 
-            <div id="boxx" class="col-sm-12"></div>
-            
-            <br/>
-            
-            <div class="col-sm-12">
-              <font color="red"><div id="results1" class="col-sm-12"></div>
-              <br/>
-              <div id="results2" class="col-sm-12"></div>
-              <br/>
-              <div id="results3" class="col-sm-12"></div>
-              <br/>
-              <div id="results3" class="col-sm-12"></div></font>
-            </div>
+              <button type="submit" class="col-md-12 btn btn-primary" onClick={()=>this.sendLogin()}>Login</button>
 
-            </div>
-          </div>
+              <br/>
+
+              <div class="form-group col-md-12">
+                <div id="results1"></div>
+                <div id="results2"></div>
+              </div>
+
+              </div>
+        </div>
         );
       }
 
 
-      sendSave()
+      sendLogin()
       {
-        if (this.state.email==="") {
-           alert("Email Is Empty")
+        if (this.state.email==="")
+        {
+          document.getElementById("results1").innerHTML = "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><i class='fa fa-envelope-o'><strong> Email Is Empty</strong></div>";
         }
-        else if (this.state.password==="") {
-           alert("Password Is Empty")
+        else if (this.state.password==="")
+        {
+          document.getElementById("results1").innerHTML = "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><i class='fa fa-lock'><strong> Password Is Empty</strong></div>";
         }
-        else {
+        else
+        {
      
           const baseUrl = "https://teamworkapps.herokuapp.com/api/v1/auth/signin"
      
@@ -70,48 +80,37 @@ class CreateUser extends React.Component{
           }
      
           axios.post(baseUrl,datapost)
-          .then(result=>{
+          .then(response=>{
 
-            if (!result.data.data)
+            if (response.status === 200)
             {
-              document.getElementById("results1").innerHTML = result.data;
+              document.getElementById("results1").innerHTML = "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><i class='fa fa-check-circle-o'><strong> Login Successful</strong></div>";
+
+              document.getElementById("results2").innerHTML += "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><i class='fa fa-check-circle-o'><strong> User ID:</strong> "+response.data.data.userId+"</div>";
+
+              const tokenPost = {
+                token : response.data.data.token
+              }
+
+              let realToken = tokenPost.token;
+
+              window.location.assign("/view-users", {realToken});
+
+              
+              // eslint-disable-next-line no-undef
+              this.props.history.push('/view-users', {realToken});
+
             }
 
-            if (result.data.data)
-            {
-              document.getElementById("results1").innerHTML = "Success: "+result.data.status;
-              document.getElementById("results2").innerHTML = "Token: "+result.data.data.token;
-              document.getElementById("results3").innerHTML = "User ID: "+result.data.data.userId;
-
-              axios.get("https://teamworkapps.herokuapp.com/api/v1/feeds", {
-                headers: {
-                    'authorization': 'Bearer '+result.data.data.token,
-                    'Accept' : 'application/json',
-                    'Content-Type': 'application/json'
-                }}).then(res=>
-                {
-                  console.log(res.data.data[0].Gifs);
-
-                  var html = "<table border='1|1'>";
-                  for (var i = 0; i < res.data.data[0].Gifs.length; i++) {
-                    html+="<td>"+JSON.stringify(res.data.data[0].Gifs)+"</td>";
-                
-                    html+="</tr>";
-                
-                  }
-                  html+="</table>";
-                  document.getElementById("boxx").innerHTML = html;
-                })
-            }
-
-            console.log(result.data);
+            console.log(response.data);
           }).catch(error=>{
-             if (error)
-             {
-                document.getElementById("results1").innerHTML = "Incorrect Password";
-             }
-            
-            console.log(error);
+            if (error.response)
+            {
+              document.getElementById("results1").innerHTML = "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><i class='fa fa-exclamation-triangle'><strong> "+error.response.data+"</strong></div>";
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            }
           })
      
         }
@@ -120,4 +119,4 @@ class CreateUser extends React.Component{
 }
 
 
-export default CreateUser;
+export default loginUser;
