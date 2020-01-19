@@ -27,7 +27,7 @@ class adminCreateUser extends React.Component{
         return (
           <div class="container mt-3">
               <div class="loginUser">
-                <Link class="btn btn-outline-success" to="/login">Login</Link>
+                <Link class="btn btn-outline-success" to="/">Login</Link>
               </div>
 
                 <div class="Banna" align="center"><h3>Create New User</h3></div>

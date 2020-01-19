@@ -22,7 +22,7 @@ class loginUser extends React.Component{
           <div class="container mt-3">
               
               <div class="newT">
-                <Link class="btn btn-outline-success" to="/">Register User</Link>
+                <Link class="btn btn-outline-success" to="/register">Register User</Link>
               </div>
 
                 <div class="Banna" align="center"><h3>Login</h3></div>
