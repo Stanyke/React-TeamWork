@@ -1,50 +1,75 @@
 import React from 'react';
+
 import axios from 'axios';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import cookie from 'cross-cookie';
 
-class listComponent extends React.Component  {
+import "./style.css";
+
+class feedsComponent extends React.Component  {
     constructor(props){
         super(props);
         this.state = {
-          listPosts:[]
+          listArticles:[],
+          listGifs:[],
+          erroMsg:""
         }
       }
 
-      componentDidMount(){
-
-        axios.get("https://teamworkapps.herokuapp.com/api/v1/feeds")
-        .then(res => {
-          const data = res.data.data;
-          this.setState({ listPosts:data });
+      componentDidMount()
+      {
+        cookie.get('userToken').then(value =>
+        {
+          axios.get("https://teamworkapps.herokuapp.com/api/v1/feeds", {
+          headers: {
+              'authorization': 'Bearer '+value,
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+          }}).then(response =>
+          {
+            console.log(response.data.data[0].Gifs);
+            this.setState({
+              listArticles: response.data.data[0].Articles,
+              listGifs: response.data.data[0].Gifs
+            })
+          })
+          .catch(error =>
+            {
+              console.log(error);
+              this.setState({erroMsg: `${error.response.data.error}`});
+            })
         })
-        .catch(error => {
-          alert(error)
-        });
-  
       }
-      loadFillData(){
+      render(){        
 
-        return this.state.listEmployee.map((data)=>{
-          return(
-            <tr>
-              <th>{data.id}</th>
-              <td>{data.jobRole}</td>
-              <td>{data.name}</td>
-              <td>{data.email}</td>
-              <td>{data.address}</td>
-              <td>{data.jobRole}</td>
-              <td>
-                <button class="btn btn-outline-info "> Edit </button>
-              </td>
-              <td>
-                <button class="btn btn-outline-danger "> Delete </button>
-              </td>
-            </tr>
-          )
-        });
-    }
+        const { listArticles, listGifs, erroMsg } = this.state;
+        return (
+          <div class="container">
+              <div class="row">
+              {
+                    Array.isArray(listGifs) && listGifs.length > 0 && listGifs.map(names => <div key={names.gif_id} class="card col-sm-4 col-6">
+                      <img class="card-img-top" src={names.imageurl} width="100%" />
+                      <div class="card-body">
+                        <h4 class="card-title">{names.postedby}</h4>
+                        <p class="card-text">{names.title}</p>
+                        <a href="#" class="btn btn-primary">{names.createdon}</a>
+                      </div>
+                      </div>)
+                      }
+
+<center>
+                {
+                 erroMsg ? <div col="12" id="viewer">{erroMsg}</div> : null
+                }
+              </center>
+              
+              </div>
+            
+
+        </div>
+        );
+      }
+
 }
 
-export default listComponent;
+export default feedsComponent;

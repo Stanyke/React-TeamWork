@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Link } from "react-router-dom";
 
+import cookie from 'cross-cookie';
+
 import axios from 'axios';
 
 import "./style.css";
@@ -92,13 +94,11 @@ class loginUser extends React.Component{
                 token : response.data.data.token
               }
 
-              let realToken = tokenPost.token;
+              cookie.set('userToken', response.data.data.token );
 
-              window.location.assign("/view-users", {realToken});
+              window.location.assign("/feeds");
 
-              
-              // eslint-disable-next-line no-undef
-              this.props.history.push('/view-users', {realToken});
+              cookie.get('userToken').then(value => console.log("Who Logged In ? "+value));
 
             }
 

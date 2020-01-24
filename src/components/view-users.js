@@ -35,8 +35,8 @@ class getAllUsers extends React.Component{
       })
       .catch(error =>
         {
-          console.log(error);
-          this.setState({erroMsg: `${error.response.data}`});
+          console.log(error.response.data.error);
+          this.setState({erroMsg: `${error.response.data.error}`});
         })
   }
 
@@ -58,8 +58,8 @@ class getAllUsers extends React.Component{
             <div class="Banna" align="center"><h3>All Users</h3></div>
             
 
-              <div class="table-responsive" id="viewer">
-              <table className="table">
+              <div class="table-responsive">
+              <table className="table" id="ThrowErrow">
               <thead>
                   <tr>
                       <th>ID</th>
@@ -70,7 +70,8 @@ class getAllUsers extends React.Component{
                       <th>Department</th>
                       <th>Address</th>
                       <th>Is Admin</th>
-                      <th>Preview</th>
+                      <th>Articles</th>
+                      <th>Gifs</th>
                   </tr>
               </thead>
               <tbody class="thead-dark">
@@ -87,14 +88,17 @@ class getAllUsers extends React.Component{
                           <td>{names.address}</td>
                           <td>{names.isadmin}</td>
                           <td><Link class="btn btn-outline-info" to={"/user/"+names.user_id}>View</Link></td>
+                          <td><Link class="btn btn-outline-info" to={"/user/"+names.user_id}>View</Link></td>
                       </tr>)
                       }
-                    {
-                      erroMsg ? <div col="12">{erroMsg}</div> : null
-                    }
                 </tbody>
                 </table>
               </div>
+              <center>
+                {
+                 erroMsg ? <div col="12" id="viewer">{document.getElementById('ThrowErrow').innerHTML = '', erroMsg}</div> : null
+                }
+              </center>
             
             <br/>
 
